@@ -2,5 +2,7 @@
   "name": "postlisting",
   "app_id": "b43310e8",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

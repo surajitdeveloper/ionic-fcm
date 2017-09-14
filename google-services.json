@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "664936594021",
+    "firebase_url": "https://postlisting-c8a4f.firebaseio.com",
+    "project_id": "postlisting-c8a4f",
+    "storage_bucket": "postlisting-c8a4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664936594021:android:cb574db991830673",
+        "android_client_info": {
+          "package_name": "in.geogo.fcmblog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664936594021-bbjh9ms21mbg9oq14nm65ei68sg1mbkn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsuYRIlPGATWJ7NGl8IxUHm3RcIJc6k84"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

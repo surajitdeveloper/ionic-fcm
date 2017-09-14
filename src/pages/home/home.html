@@ -5,10 +5,14 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
+<ion-content *ngIf="json_data" padding>
+  <ion-list>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <ion-item *ngFor="let content of json_data" [data]="x">
+      <h2>{{content.title}}</h2>
+      <h3>{{content.date}}</h3>
+      <p>{{content.description}}</p>
+    </ion-item>
+
+  </ion-list>
 </ion-content>
