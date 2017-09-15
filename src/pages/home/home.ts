@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm';
 @Component({
@@ -7,62 +7,45 @@ import { FCM } from '@ionic-native/fcm';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  json_data: Array<object> = [{title: "Santu", description: "", date: ""}];
-  xjson_data: Array<object> = [{title: string, description: sring, date: string}];
-  constructor(public navCtrl: NavController, private ionStore: Storage, private fcm: FCM) {
-    this.fcm.subscribeToTopic('post_update');
-    this.fcm_process();
+  private post_data = [];
+  constructor(
+    public navCtrl: NavController,
+    private ionStore: Storage,
+    private fcm: FCM,
+    private platform: Platform) {
+    this.platform.ready().then(() => {
+      this.fcm.subscribeToTopic('post_update');
+      this.fcmProcess();
+    })
   }
-  fcm_process()
-  {
-    this.fcm.onNotification().subscribe(data=>{
-      this.ionic_storage_process(data);
-    });
-
+  ionViewDidLoad() {
+    let posts = JSON.parse(window.localStorage.getItem('posts'))
+    if(posts){
+      this.post_data = posts;
+    }
   }
-  ionic_storage_process(data)
-  {
-    let new_data = {"title":data.title,"description":data.description,"date":data.updated_at};
-    let json_data = [];
-    json_data.push(new_data);
-    this.ionStore.get('post_update').then((val) => {
-      if(val != null)
-      {
-        let old_storage_array = JSON.parse(val);
-        for (var i = 0; i < old_storage_array.length; i++) {
-          json_data.push(old_storage_array[i]);
+  private fcmProcess() {
+    this.fcm.onNotification().subscribe(data => {
+      let post_obj = {
+        title: data.title,
+        description: data.description,
+        date: data.updated_at
+      };
+      if(data.wasTapped){
+        console.log("Received in Background");
+        let posts = window.localStorage.getItem('posts');
+        let db_data = [];
+        if(posts){
+          db_data = JSON.parse(posts);
         }
-        let save_val = JSON.stringify(json_data);
-        alert("not null ---"+save_val);
-        this.ionStore.set("post_update", save_val);
-      }
-      else
-      {
-        let save_val = JSON.stringify(json_data);
-        alert("null ---"+save_val);
-        this.ionStore.set("post_update", save_val);
-      }
-      this.showpostindiv();
-    });
-  }
-  showpostindiv()
-  {
-
-    this.ionStore.get('post_update').then((val) => {
-      if(val != null)
-      {
-        alert("show data - "+val);
-        this.json_data = JSON.parse(val);
+        db_data.push(post_obj);
+        window.localStorage.setItem('posts',JSON.stringify(db_data));
+      }else{
+        console.log("Received in Foreground");
+        this.post_data.push(post_obj)
+        console.log(this.post_data);
+        this.ionStore.set('posts', JSON.stringify(this.post_data));
       }
     });
-  }
-  ionViewDidLoad()
-  {
-    this.showpostindiv();
-    this.fcm_process();
-
-    let show_post = "[{\"title\":\"Test1\",\"description\":\"test2\",\"date\":\"2017\"},{\"title\":\"test2\",\"descripion\":\"Test2\",\"date\":\"2017\"}]";
-    this.json_data = JSON.parse(show_post);
-
   }
 }

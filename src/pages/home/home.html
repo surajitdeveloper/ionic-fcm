@@ -1,14 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Ionic Blank {{post_data.length}}
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content *ngIf="json_data" padding>
+<ion-content padding>
   <ion-list>
 
-    <ion-item *ngFor="let content of json_data" [data]="x">
+    <ion-item *ngFor="let content of post_data">
       <h2>{{content.title}}</h2>
       <h3>{{content.date}}</h3>
       <p>{{content.description}}</p>
